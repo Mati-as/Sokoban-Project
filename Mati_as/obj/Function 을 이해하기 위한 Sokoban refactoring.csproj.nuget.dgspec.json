@@ -1,17 +1,17 @@
 {
   "format": 1,
   "restore": {
-    "C:\\Users\\ideon\\Desktop\\Function 을 이해하기 위한 Sokoban refactoring\\Function 을 이해하기 위한 Sokoban refactoring.csproj": {}
+    "C:\\Users\\ideon\\Documents\\github_Mati\\Sokoban-Project\\Mati_as\\Function 을 이해하기 위한 Sokoban refactoring.csproj": {}
   },
   "projects": {
-    "C:\\Users\\ideon\\Desktop\\Function 을 이해하기 위한 Sokoban refactoring\\Function 을 이해하기 위한 Sokoban refactoring.csproj": {
+    "C:\\Users\\ideon\\Documents\\github_Mati\\Sokoban-Project\\Mati_as\\Function 을 이해하기 위한 Sokoban refactoring.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "C:\\Users\\ideon\\Desktop\\Function 을 이해하기 위한 Sokoban refactoring\\Function 을 이해하기 위한 Sokoban refactoring.csproj",
+        "projectUniqueName": "C:\\Users\\ideon\\Documents\\github_Mati\\Sokoban-Project\\Mati_as\\Function 을 이해하기 위한 Sokoban refactoring.csproj",
         "projectName": "Function 을 이해하기 위한 Sokoban refactoring",
-        "projectPath": "C:\\Users\\ideon\\Desktop\\Function 을 이해하기 위한 Sokoban refactoring\\Function 을 이해하기 위한 Sokoban refactoring.csproj",
+        "projectPath": "C:\\Users\\ideon\\Documents\\github_Mati\\Sokoban-Project\\Mati_as\\Function 을 이해하기 위한 Sokoban refactoring.csproj",
         "packagesPath": "C:\\Users\\ideon\\.nuget\\packages\\",
-        "outputPath": "C:\\Users\\ideon\\Desktop\\Function 을 이해하기 위한 Sokoban refactoring\\obj\\",
+        "outputPath": "C:\\Users\\ideon\\Documents\\github_Mati\\Sokoban-Project\\Mati_as\\obj\\",
         "projectStyle": "PackageReference",
         "configFilePaths": [
           "C:\\Users\\ideon\\AppData\\Roaming\\NuGet\\NuGet.Config",

@@ -1,7 +1,6 @@
-﻿using Function_을_이해하기_위한_Sokoban_refactoring;
-
-namespace Sokoban
-{
+﻿namespace Function_을_이해하기_위한_Sokoban_refactoring
+{//namespace 선언해야 다른 네임스페이스에서도 불러올 수 있다
+//안그러면 namespaceaname.something 같이 불러와야한다.
     enum Direction // 방향을 저장하는 타입
     {
         None,
@@ -23,10 +22,10 @@ namespace Sokoban
     class Sokoban
     {
 
-        internal player playerFirst = new player();
-        internal player playerSecond = new player();
+        internal static Player playerFirst = new Player();
+        internal static Player playerSecond = new Player();
 
-        public void Main()
+        public static void Main()
         {
            
 
@@ -98,22 +97,59 @@ namespace Sokoban
             playerSecond.MoveDirection = Direction.None;
             playerSecond.PushedBoxIndex = 0;
 
+
+
+            //Box[] boxForFirst = new Box[]
+            //{
+            //    new Box { X = MIN_X + 6, Y = MIN_Y + 5, isOnGoal = false},
+            //    new Box { X = MIN_X + 8, Y = MIN_Y + 3, isOnGoal = false},
+            //    new Box { X = MIN_X + 4, Y = MIN_Y + 3, isOnGoal = false},
+            //    new Box { X = MIN_X + 16,Y = MIN_Y + 10 ,isOnGoal = false}
+            //};
+            Random random = new Random();
+
+            int randomBoxNumX = 0;
+            int randomBoxNumY = 0;
+               
+
            
-             
-            Box[] boxForFirst = new Box[]
+
+            for (int x = 0; x < BOX_COUNT; ++x)
             {
-                new Box { X = MIN_X + 6, Y = MIN_Y + 5, isOnGoal = false},
-                new Box { X = MIN_X + 8, Y = MIN_Y + 3, isOnGoal = false},
-                new Box { X = MIN_X + 4, Y = MIN_Y + 3, isOnGoal = false},
-                new Box { X = MIN_X + 16,Y = MIN_Y + 10 ,isOnGoal = false}
-            };             
+
+                while (randomBoxNumX % 2 == 0)
+                {
+                    randomBoxNumX = random.Next(MIN_X + 2, MAX_X - 2);
+                }
+
+                randomBoxNumY = random.Next(MIN_Y + 1, MAX_Y - 1);
+
+            }
+
+            Box[] boxForFirst = new Box[BOX_COUNT] {
+                  new Box { X = randomBoxNumX , Y = randomBoxNumY, isOnGoal = false},
+                  new Box { X = randomBoxNumX , Y = randomBoxNumY, isOnGoal = false},
+                  new Box { X = randomBoxNumX , Y = randomBoxNumY, isOnGoal = false},
+                  new Box { X = randomBoxNumX , Y = randomBoxNumY ,isOnGoal = false}
+               };
+
+
+            for (int x = 0; x < BOX_COUNT; ++x)
+            {
+
+                while (randomBoxNumX % 2 == 0)
+                {
+                    randomBoxNumX = random.Next(MIN_X_SECOND, MAX_X_SECOND);
+                }
+                randomBoxNumY = random.Next(MIN_Y_SECOND, MAX_Y_SECOND);
+            }
 
             Box[] boxForSecond = new Box[]
              {              
-                new Box { X = MIN_X_SECOND + 6, Y = MIN_Y_SECOND + 5, isOnGoal = false},
-                new Box { X = MIN_X_SECOND + 8, Y = MIN_Y_SECOND + 3, isOnGoal = false},
-                new Box { X = MIN_X_SECOND + 4, Y = MIN_Y_SECOND + 3, isOnGoal = false},
-                new Box { X = MIN_X_SECOND +14, Y = MIN_Y_SECOND + 7, isOnGoal = false}
+                new Box { X = randomBoxNumX, Y = randomBoxNumY, isOnGoal = false},
+                new Box { X = randomBoxNumX, Y = randomBoxNumY, isOnGoal = false},
+                new Box { X = randomBoxNumX, Y = randomBoxNumY, isOnGoal = false},
+                new Box { X = randomBoxNumX, Y = randomBoxNumY, isOnGoal = false}
              };
 
 
@@ -176,16 +212,17 @@ namespace Sokoban
             while (true)
             {
                 Render();
-
+               
 
                 int boxOnGoalCount = 0;
                 int boxOnGoalCountForSeCond = 0;
 
                 key = ConsoleKey.Applications;
 
-
+                
                     if (Console.KeyAvailable)
-                    {
+                    {   
+                       
                         key = Console.ReadKey().Key;
                         UpdateForSecond(key);
                         Update(key);
@@ -387,18 +424,16 @@ namespace Sokoban
                 int preX = playerFirst.X;
                 int preY = playerFirst.Y;
 
-                MovePlayer(key, ref playerFirst.X );
+                MovePlayer(key, playerFirst);
 
 
                 /// 1P 공백함수 위치 조건문
                 for (int i = 0; i < GOAL_COUNT; i++)
                 {
-                    
-
                  if    (playerFirst.X != goalFirst[i].X
                         && playerFirst.Y != goalFirst[i].Y
-                        && playerFirst.X != boxes[i].X
-                        && playerFirst.Y != boxes[i].Y
+                        && playerFirst.X != boxForFirst[i].X
+                        && playerFirst.Y != boxForFirst[i].Y
                       
                     )
 
@@ -461,7 +496,7 @@ namespace Sokoban
                 // => 플레이어가 이동했는데 플레이어의 위치와 박스 위치가 겹쳤다.
                 for (int i = 0; i < BOX_COUNT; ++i)
                 {
-                    if (false == IsCollided(playerFirst.X, playerFirst.Y, boxes[i].X, boxes[i].Y))
+                    if (false == IsCollided(playerFirst.X, playerFirst.Y, boxForFirst[i].X, boxForFirst[i].Y))
                     {
                         continue;
                     }
@@ -470,31 +505,31 @@ namespace Sokoban
                     switch (playerFirst.MoveDirection)
                     {
                         case Direction.Left:
-                            boxes[i].X = Math.Clamp(boxes[i].X - 2, MIN_X, MAX_X);
-                            playerFirst.X = boxes[i].X + 2;
+                            boxForFirst[i].X = Math.Clamp(boxForFirst[i].X - 2, MIN_X, MAX_X);
+                            playerFirst.X = boxForFirst[i].X + 2;
                             playerFirst.PushedBoxIndex = i;
                             break;
                         case Direction.Right:
-                            boxes[i].X = Math.Clamp(boxes[i].X + 2, MIN_X, MAX_X);
-                            playerFirst.X = boxes[i].X - 2;
+                            boxForFirst[i].X = Math.Clamp(boxForFirst[i].X + 2, MIN_X, MAX_X);
+                            playerFirst.X = boxForFirst[i].X - 2;
                             playerFirst.PushedBoxIndex = i;
                             break;
                         case Direction.Up:
-                            boxes[i].Y = Math.Clamp(boxes[i].Y - 1, MIN_Y, MAX_Y);
-                            playerFirst.Y = boxes[i].Y + 1;
+                            boxForFirst[i].Y = Math.Clamp(boxForFirst[i].Y - 1, MIN_Y, MAX_Y);
+                            playerFirst.Y = boxForFirst[i].Y + 1;
                             playerFirst.PushedBoxIndex = i;
 
                             break;
                         case Direction.Down:
-                            boxes[i].Y = Math.Clamp(boxes[i].Y + 1, MIN_Y, MAX_Y);
-                            player.Y = boxes[i].Y - 1;
-                            player.PushedBoxIndex = i;
+                            boxForFirst[i].Y = Math.Clamp(boxForFirst[i].Y + 1, MIN_Y, MAX_Y);
+                            playerFirst.Y = boxForFirst[i].Y - 1;
+                            playerFirst.PushedBoxIndex = i;
                             break;
 
 
                         default:
                             Console.Clear();
-                            Console.WriteLine($"[Error] 플레이어 이동 방향 데이터가 오류입니다. : {player.MoveDirection}");
+                            Console.WriteLine($"[Error] 플레이어 이동 방향 데이터가 오류입니다. : {playerFirst.MoveDirection}");
 
                             return;
                     }
@@ -507,28 +542,28 @@ namespace Sokoban
                 // 박스와 벽의 충돌 처리
                 for (int wallId = 0; wallId < WALL_COUNT; ++wallId)
                 {
-                    if (false == IsCollided(boxes[player.PushedBoxIndex].X, boxes[player.PushedBoxIndex].Y, wallFirst[wallId].X, wallFirst[wallId].Y))
+                    if (false == IsCollided(boxForFirst[playerFirst.PushedBoxIndex].X, boxForFirst[playerFirst.PushedBoxIndex].Y, wallFirst[wallId].X, wallFirst[wallId].Y))
                     {
                         continue;
                     }
 
-                    switch (player.MoveDirection)
+                    switch (playerFirst.MoveDirection)
                     {
                         case Direction.Left:
-                            boxes[player.PushedBoxIndex].X = wallFirst[wallId].X + 2;
-                            player.X = boxes[player.PushedBoxIndex].X + 2;
+                            boxForFirst[playerFirst.PushedBoxIndex].X = wallFirst[wallId].X + 2;
+                            playerFirst.X = boxForFirst[playerFirst.PushedBoxIndex].X + 2;
                             break;
                         case Direction.Right:
-                            boxes[player.PushedBoxIndex].X = wallFirst[wallId].X - 2;
-                            player.X = boxes[player.PushedBoxIndex].X - 2;
+                            boxForFirst[playerFirst.PushedBoxIndex].X = wallFirst[wallId].X - 2;
+                            playerFirst.X = boxForFirst[playerFirst.PushedBoxIndex].X - 2;
                             break;
                         case Direction.Up:
-                            boxes[player.PushedBoxIndex].Y = wallFirst[wallId].Y + 1;
-                            player.Y = boxes[player.PushedBoxIndex].Y + 1;
+                            boxForFirst[playerFirst.PushedBoxIndex].Y = wallFirst[wallId].Y + 1;
+                            playerFirst.Y = boxForFirst[playerFirst.PushedBoxIndex].Y + 1;
                             break;
                         case Direction.Down:
-                            boxes[player.PushedBoxIndex].Y = wallFirst[wallId].Y - 1;
-                            player.Y = boxes[player.PushedBoxIndex].Y - 1;
+                            boxForFirst[playerFirst.PushedBoxIndex].Y = wallFirst[wallId].Y - 1;
+                            playerFirst.Y = boxForFirst[playerFirst.PushedBoxIndex].Y - 1;
                             break;
 
                         //두번쨰 캐릭터 처리
@@ -536,7 +571,7 @@ namespace Sokoban
 
                         default:
                             Console.Clear();
-                            Console.WriteLine($"[Error] 플레이어 이동 방향 데이터가 오류입니다. : {player.MoveDirection}");
+                            Console.WriteLine($"[Error] 플레이어 이동 방향 데이터가 오류입니다. : {playerFirst.MoveDirection}");
 
                             return;
                     }
@@ -551,37 +586,36 @@ namespace Sokoban
                 for (int collidedBoxId = 0; collidedBoxId < BOX_COUNT; ++collidedBoxId)
                 {
                     // 같은 박스라면 처리할 필요가 X
-                    if (player.PushedBoxIndex == collidedBoxId)
+                    if (Sokoban.playerFirst.PushedBoxIndex == collidedBoxId)
+                    {
+                        continue;
+                    }
+                    if (false == IsCollided(boxForFirst[Sokoban.playerFirst.PushedBoxIndex].X, boxForFirst[Sokoban.playerFirst.PushedBoxIndex].Y, boxForFirst[collidedBoxId].X, boxForFirst[collidedBoxId].Y))
                     {
                         continue;
                     }
 
-                    if (false == IsCollided(boxes[player.PushedBoxIndex].X, boxes[player.PushedBoxIndex].Y, boxes[collidedBoxId].X, boxes[collidedBoxId].Y))
-                    {
-                        continue;
-                    }
-
-                    switch (player.MoveDirection)
+                    switch (playerFirst.MoveDirection)
                     {
                         case Direction.Left:
-                            boxes[player.PushedBoxIndex].X = boxes[collidedBoxId].X + 2;
-                            player.X = boxes[player.PushedBoxIndex].X + 2;
+                            boxForFirst[playerFirst.PushedBoxIndex].X = boxForFirst[collidedBoxId].X + 2;
+                            playerFirst.X = boxForFirst[playerFirst.PushedBoxIndex].X + 2;
 
                             break;
                         case Direction.Right:
-                            boxes[player.PushedBoxIndex].X = boxes[collidedBoxId].X - 2;
-                            player.X = boxes[player.PushedBoxIndex].X - 2;
+                            boxForFirst[playerFirst.PushedBoxIndex].X = boxForFirst[collidedBoxId].X - 2;
+                            playerFirst.X = boxForFirst[playerFirst.PushedBoxIndex].X - 2;
 
                             break;
                         case Direction.Up:
-                            boxes[player.PushedBoxIndex].Y = boxes[collidedBoxId].Y + 1;
-                            player.Y = boxes[player.PushedBoxIndex].Y + 1;
+                            boxForFirst[playerFirst.PushedBoxIndex].Y = boxForFirst[collidedBoxId].Y + 1;
+                            playerFirst.Y = boxForFirst[playerFirst.PushedBoxIndex].Y + 1;
 
                             break;
 
                         case Direction.Down:
-                            boxes[player.PushedBoxIndex].Y = boxes[collidedBoxId].Y - 1;
-                            player.Y = boxes[player.PushedBoxIndex].Y - 1;
+                            boxForFirst[playerFirst.PushedBoxIndex].Y = boxForFirst[collidedBoxId].Y - 1;
+                            playerFirst.Y = boxForFirst[playerFirst.PushedBoxIndex].Y - 1;
 
 
 
@@ -589,7 +623,7 @@ namespace Sokoban
                             break;
                         default:
                             Console.Clear();
-                            Console.WriteLine($"[Error] 플레이어 이동 방향 데이터가 오류입니다. : {player.MoveDirection}");
+                            Console.WriteLine($"[Error] 플레이어 이동 방향 데이터가 오류입니다. : {playerFirst.MoveDirection}");
 
                             return;
                     }
@@ -605,56 +639,55 @@ namespace Sokoban
 
             void UpdateForSecond(ConsoleKey key2)
             {
+                int preX = playerSecond.X;
+                int preY = playerSecond.Y;
 
-                int preX = secondPlayer.X;
-                int preY = secondPlayer.Y;
 
-
-                MoveSecondPlayer(key2, ref secondPlayer);
+                MoveSecondPlayer(key2, ref playerSecond);
 
 
                 /// 공백함수 위치 조건문
                 for (int i = 0; i < GOAL_COUNT; i++)
                 {
-                    if (secondPlayer.X != goalSecond[i].X &&
-                        secondPlayer.Y != goalSecond[i].Y &&
-                        secondPlayer.X != boxesForSecond[i].X &&
-                        secondPlayer.Y != boxesForSecond[i].Y)
+                    if (playerSecond.X != goalSecond[i].X &&
+                        playerSecond.Y != goalSecond[i].Y &&
+                        playerSecond.X != boxForSecond[i].X &&
+                        playerSecond.Y != boxForSecond[i].Y)
                     {
-                        secondPlayer.PreX = preX;
-                        secondPlayer.PreY = preY;
+                        playerSecond.PreX = preX;
+                        playerSecond.PreY = preY;
                     }
                 }
 
                 for (int wallId = 0; wallId < WALL_COUNT; ++wallId)
                 {
-                    if (false == IsCollided(secondPlayer.X, secondPlayer.Y, wallForSecond[wallId].X, wallForSecond[wallId].Y))
+                    if (false == IsCollided(playerSecond.X, playerSecond.Y, wallForSecond[wallId].X, wallForSecond[wallId].Y))
                     {
                         continue;
                     }
 
-                    switch (secondPlayer.MoveDirection)
+                    switch (playerSecond.MoveDirection)
                     {
 
                         //플레이어 2와 벽과 충돌처리
                         case Direction.LeftForSeoncd:
-                            secondPlayer.X = wallForSecond[wallId].X + 2;
+                            playerSecond.X = wallForSecond[wallId].X + 2;
 
                             break;
                         case Direction.RightForSeoncd:
-                            secondPlayer.X = wallForSecond[wallId].X - 2;
+                            playerSecond.X = wallForSecond[wallId].X - 2;
                             break;
                         case Direction.UpForSeoncd:
-                            secondPlayer.Y = wallForSecond[wallId].Y + 1;
+                            playerSecond.Y = wallForSecond[wallId].Y + 1;
                             break;
                         case Direction.DownForSecond:
-                            secondPlayer.Y = wallForSecond[wallId].Y - 1;
+                            playerSecond.Y = wallForSecond[wallId].Y - 1;
                             break;
 
 
                         default:
                             Console.Clear();
-                            Console.WriteLine($"[Error] 플레이어 이동 방향 데이터가 오류입니다. : {secondPlayer.MoveDirection}");
+                            Console.WriteLine($"[Error] 플레이어 이동 방향 데이터가 오류입니다. : {playerSecond.MoveDirection}");
 
                             return;
                     }
@@ -665,41 +698,40 @@ namespace Sokoban
                 //두번째 박스 이동처리
                 for (int i = 0; i < BOX_COUNT; ++i)
                 {
-
-                    if (false == IsCollided(secondPlayer.X, secondPlayer.Y, boxesForSecond[i].X, boxesForSecond[i].Y))
+                    if (false == IsCollided(playerSecond.X, playerSecond.Y, boxForSecond[i].X, boxForSecond[i].Y))
                     {
                         continue;
                     }
 
-                    switch (secondPlayer.MoveDirection)
+                    switch (playerSecond.MoveDirection)
                     {
                         case Direction.LeftForSeoncd:
-                            boxesForSecond[i].X = Math.Clamp(boxesForSecond[i].X - 2, MIN_X_SECOND, MAX_X_SECOND);
-                            secondPlayer.X = boxesForSecond[i].X + 2;
-                            secondPlayer.PushedBoxIndex = i;
+                            boxForSecond[i].X = Math.Clamp(boxForSecond[i].X - 2, MIN_X_SECOND, MAX_X_SECOND);
+                            playerSecond.X = boxForSecond[i].X + 2;
+                            playerSecond.PushedBoxIndex = i;
                             break;
 
                         case Direction.RightForSeoncd:
-                            boxesForSecond[i].X = Math.Clamp(boxesForSecond[i].X + 2, MIN_X_SECOND, MAX_X_SECOND);
-                            secondPlayer.X = boxesForSecond[i].X - 2;
-                            secondPlayer.PushedBoxIndex = i;
+                            boxForSecond[i].X = Math.Clamp(boxForSecond[i].X + 2, MIN_X_SECOND, MAX_X_SECOND);
+                            playerSecond.X = boxForSecond[i].X - 2;
+                            playerSecond.PushedBoxIndex = i;
                             break;
 
                         case Direction.UpForSeoncd:
-                            boxesForSecond[i].Y = Math.Clamp(boxesForSecond[i].Y - 1, MIN_Y_SECOND, MAX_Y_SECOND);
-                            secondPlayer.Y = boxesForSecond[i].Y + 1;
-                            secondPlayer.PushedBoxIndex = i;
+                            boxForSecond[i].Y = Math.Clamp(boxForSecond[i].Y - 1, MIN_Y_SECOND, MAX_Y_SECOND);
+                            playerSecond.Y = boxForSecond[i].Y + 1;
+                            playerSecond.PushedBoxIndex = i;
                             break;
 
                         case Direction.DownForSecond:
-                            boxesForSecond[i].Y = Math.Clamp(boxesForSecond[i].Y + 1, MIN_Y_SECOND, MAX_Y_SECOND);
-                            secondPlayer.Y = boxesForSecond[i].Y - 1;
-                            secondPlayer.PushedBoxIndex = i;
+                            boxForSecond[i].Y = Math.Clamp(boxForSecond[i].Y + 1, MIN_Y_SECOND, MAX_Y_SECOND);
+                            playerSecond.Y = boxForSecond[i].Y - 1;
+                            playerSecond.PushedBoxIndex = i;
                             break;
 
                         default:
                             Console.Clear();
-                            Console.WriteLine($"[Error] 플레이어 이동 방향 데이터가 오류입니다. : {secondPlayer.MoveDirection}");
+                            Console.WriteLine($"[Error] 플레이어 이동 방향 데이터가 오류입니다. : {playerSecond.MoveDirection}");
 
                             return;
 
@@ -710,28 +742,28 @@ namespace Sokoban
                 // 두번째 박스와 벽의 충돌 처리
                 for (int wallId = 0; wallId < WALL_COUNT; ++wallId)
                 {
-                    if (false == IsCollided(boxesForSecond[secondPlayer.PushedBoxIndex].X, boxesForSecond[secondPlayer.PushedBoxIndex].Y, wallForSecond[wallId].X, wallForSecond[wallId].Y))
+                    if (false == IsCollided(boxForSecond[playerSecond.PushedBoxIndex].X, boxForSecond[playerSecond.PushedBoxIndex].Y, wallForSecond[wallId].X, wallForSecond[wallId].Y))
                     {
                         continue;
                     }
 
-                    switch (secondPlayer.MoveDirection)
+                    switch (playerSecond.MoveDirection)
                     {
                         case Direction.LeftForSeoncd:
-                            boxesForSecond[secondPlayer.PushedBoxIndex].X = wallForSecond[wallId].X + 2;
-                            secondPlayer.X = boxesForSecond[secondPlayer.PushedBoxIndex].X + 2;
+                            boxForSecond[playerSecond.PushedBoxIndex].X = wallForSecond[wallId].X + 2;
+                            playerSecond.X = boxForSecond[playerSecond.PushedBoxIndex].X + 2;
                             break;
                         case Direction.RightForSeoncd:
-                            boxesForSecond[secondPlayer.PushedBoxIndex].X = wallForSecond[wallId].X - 2;
-                            secondPlayer.X = boxesForSecond[secondPlayer.PushedBoxIndex].X - 2;
+                            boxForSecond[playerSecond.PushedBoxIndex].X = wallForSecond[wallId].X - 2;
+                            playerSecond.X = boxForSecond[playerSecond.PushedBoxIndex].X - 2;
                             break;
                         case Direction.UpForSeoncd:
-                            boxesForSecond[secondPlayer.PushedBoxIndex].Y = wallForSecond[wallId].Y + 1;
-                            secondPlayer.Y = boxesForSecond[secondPlayer.PushedBoxIndex].Y + 1;
+                            boxForSecond[playerSecond.PushedBoxIndex].Y = wallForSecond[wallId].Y + 1;
+                            playerSecond.Y = boxForSecond[playerSecond.PushedBoxIndex].Y + 1;
                             break;
                         case Direction.DownForSecond:
-                            boxesForSecond[secondPlayer.PushedBoxIndex].Y = wallForSecond[wallId].Y - 1;
-                            secondPlayer.Y = boxesForSecond[secondPlayer.PushedBoxIndex].Y - 1;
+                            boxForSecond[playerSecond.PushedBoxIndex].Y = wallForSecond[wallId].Y - 1;
+                            playerSecond.Y = boxForSecond[playerSecond.PushedBoxIndex].Y - 1;
                             break;
 
                         //두번쨰 캐릭터 처리
@@ -739,7 +771,7 @@ namespace Sokoban
 
                         default:
                             Console.Clear();
-                            Console.WriteLine($"[Error] 플레이어 이동 방향 데이터가 오류입니다. : {secondPlayer.MoveDirection}");
+                            Console.WriteLine($"[Error] 플레이어 이동 방향 데이터가 오류입니다. : {playerSecond.MoveDirection}");
 
                             return;
                     }
@@ -751,43 +783,42 @@ namespace Sokoban
                 for (int collidedBoxId = 0; collidedBoxId < BOX_COUNT; ++collidedBoxId)
                 {
                     // 같은 박스라면 처리할 필요가 X
-                    if (secondPlayer.PushedBoxIndex == collidedBoxId)
+                    if (playerSecond.PushedBoxIndex == collidedBoxId)
+                    {
+                        continue;
+                    }
+                    if (false == IsCollided(boxForSecond[playerSecond.PushedBoxIndex].X, boxForSecond[playerSecond.PushedBoxIndex].Y, boxForSecond[collidedBoxId].X, boxForSecond[collidedBoxId].Y))
                     {
                         continue;
                     }
 
-                    if (false == IsCollided(boxesForSecond[secondPlayer.PushedBoxIndex].X, boxesForSecond[secondPlayer.PushedBoxIndex].Y, boxesForSecond[collidedBoxId].X, boxesForSecond[collidedBoxId].Y))
-                    {
-                        continue;
-                    }
-
-                    switch (secondPlayer.MoveDirection)
+                    switch (playerSecond.MoveDirection)
                     {
 
                         case Direction.LeftForSeoncd:
-                            boxesForSecond[secondPlayer.PushedBoxIndex].X = boxesForSecond[collidedBoxId].X + 2;
-                            secondPlayer.X = boxesForSecond[secondPlayer.PushedBoxIndex].X + 2;
+                            boxForSecond[playerSecond.PushedBoxIndex].X = boxForSecond[collidedBoxId].X + 2;
+                            playerSecond.X = boxForSecond[playerSecond.PushedBoxIndex].X + 2;
 
                             break;
                         case Direction.RightForSeoncd:
-                            boxesForSecond[secondPlayer.PushedBoxIndex].X = boxesForSecond[collidedBoxId].X - 2;
-                            secondPlayer.X = boxesForSecond[secondPlayer.PushedBoxIndex].X - 2;
+                            boxForSecond[playerSecond.PushedBoxIndex].X = boxForSecond[collidedBoxId].X - 2;
+                            playerSecond.X = boxForSecond[playerSecond.PushedBoxIndex].X - 2;
 
                             break;
                         case Direction.UpForSeoncd:
-                            boxesForSecond[secondPlayer.PushedBoxIndex].Y = boxesForSecond[collidedBoxId].Y + 1;
-                            secondPlayer.Y = boxesForSecond[secondPlayer.PushedBoxIndex].Y + 1;
+                            boxForSecond[playerSecond.PushedBoxIndex].Y = boxForSecond[collidedBoxId].Y + 1;
+                            playerSecond.Y = boxForSecond[playerSecond.PushedBoxIndex].Y + 1;
 
                             break;
                         case Direction.DownForSecond:
-                            boxesForSecond[secondPlayer.PushedBoxIndex].Y = boxesForSecond[collidedBoxId].Y - 1;
-                            secondPlayer.Y = boxesForSecond[secondPlayer.PushedBoxIndex].Y - 1;
+                            boxForSecond[playerSecond.PushedBoxIndex].Y = boxForSecond[collidedBoxId].Y - 1;
+                            playerSecond.Y = boxForSecond[playerSecond.PushedBoxIndex].Y - 1;
 
 
                             break;
                         default:
                             Console.Clear();
-                            Console.WriteLine($"[Error] 플레이어 이동 방향 데이터가 오류입니다. : {secondPlayer.MoveDirection}");
+                            Console.WriteLine($"[Error] 플레이어 이동 방향 데이터가 오류입니다. : {playerSecond.MoveDirection}");
 
                             return;
                     }
@@ -804,35 +835,35 @@ namespace Sokoban
 
             // 플레이어를 이동시킨다.
             // 실제메모리는 힙 , 메모리는 스택
-            void MovePlayer(ConsoleKey key, playerFirst)
+            void MovePlayer(ConsoleKey key, Player playerFirst)
             {//플레이어 이동함수
 
                 if (key == ConsoleKey.A)
                 {
 
-                    playerFirst.X = Math.Max(MIN_X, player.X - 2);
+                    playerFirst.X = Math.Max(MIN_X, playerFirst.X - 2);
                     playerFirst.MoveDirection = Direction.Left;
                 }
 
                 if (key == ConsoleKey.D)
                 {
 
-                    playerFirset.X = Math.Min(player.X + 2, MAX_X);
+                    playerFirst.X = Math.Min(playerFirst.X + 2, MAX_X);
                     playerFirst.MoveDirection = Direction.Right;
                 }
 
                 if (key == ConsoleKey.W)
                 {
 
-                    player.Y = Math.Max(MIN_Y, player.Y - 1);
-                    player.MoveDirection = Direction.Up;
+                    playerFirst.Y = Math.Max(MIN_Y, playerFirst.Y - 1);
+                    playerFirst.MoveDirection = Direction.Up;
                 }
 
                 if (key == ConsoleKey.S)
                 {
 
-                    player.Y = Math.Min(player.Y + 1, MAX_Y);
-                    player.MoveDirection = Direction.Down;
+                    playerFirst.Y = Math.Min(playerFirst.Y + 1, MAX_Y);
+                    playerFirst.MoveDirection = Direction.Down;
                 }
 
 

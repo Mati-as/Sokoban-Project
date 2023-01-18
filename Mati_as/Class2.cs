@@ -11,12 +11,13 @@ namespace Function_을_이해하기_위한_Sokoban_refactoring
     //    public int X;
     //    public int Y;
     //    public bool IsOnGoal;
-        
+
     //}
-}
-class Box
-{
-    public int X;
-    public int Y;
-    public bool isOnGoal = false;
+    class Box
+    {
+        public int X;
+        public int Y;
+        public bool isOnGoal = false;
+    }
+
 }

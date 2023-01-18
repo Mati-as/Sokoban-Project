@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace Function_을_이해하기_위한_Sokoban_refactoring
 {
-  struct Goal
+  class Goal
     {
         public int X;
         public int Y;

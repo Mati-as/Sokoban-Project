@@ -13,3 +13,18 @@ C:\Users\ideon\Desktop\Function 을 이해하기 위한 Sokoban refactoring\obj\
 C:\Users\ideon\Desktop\Function 을 이해하기 위한 Sokoban refactoring\obj\Debug\net7.0\Function 을 이해하기 위한 Sokoban refactoring.pdb
 C:\Users\ideon\Desktop\Function 을 이해하기 위한 Sokoban refactoring\obj\Debug\net7.0\Function 을 이해하기 위한 Sokoban refactoring.genruntimeconfig.cache
 C:\Users\ideon\Desktop\Function 을 이해하기 위한 Sokoban refactoring\obj\Debug\net7.0\ref\Function 을 이해하기 위한 Sokoban refactoring.dll
+C:\Users\ideon\Documents\github_Mati\Sokoban-Project\Mati_as\obj\Debug\net7.0\Function 을 이해하기 위한 Sokoban refactoring.csproj.AssemblyReference.cache
+C:\Users\ideon\Documents\github_Mati\Sokoban-Project\Mati_as\obj\Debug\net7.0\Function 을 이해하기 위한 Sokoban refactoring.GeneratedMSBuildEditorConfig.editorconfig
+C:\Users\ideon\Documents\github_Mati\Sokoban-Project\Mati_as\obj\Debug\net7.0\Function 을 이해하기 위한 Sokoban refactoring.AssemblyInfoInputs.cache
+C:\Users\ideon\Documents\github_Mati\Sokoban-Project\Mati_as\obj\Debug\net7.0\Function 을 이해하기 위한 Sokoban refactoring.AssemblyInfo.cs
+C:\Users\ideon\Documents\github_Mati\Sokoban-Project\Mati_as\obj\Debug\net7.0\Function 을 이해하기 위한 Sokoban refactoring.csproj.CoreCompileInputs.cache
+C:\Users\ideon\Documents\github_Mati\Sokoban-Project\Mati_as\obj\Debug\net7.0\Function 을 이해하기 위한 Sokoban refactoring.dll
+C:\Users\ideon\Documents\github_Mati\Sokoban-Project\Mati_as\obj\Debug\net7.0\refint\Function 을 이해하기 위한 Sokoban refactoring.dll
+C:\Users\ideon\Documents\github_Mati\Sokoban-Project\Mati_as\obj\Debug\net7.0\Function 을 이해하기 위한 Sokoban refactoring.pdb
+C:\Users\ideon\Documents\github_Mati\Sokoban-Project\Mati_as\bin\Debug\net7.0\Function 을 이해하기 위한 Sokoban refactoring.exe
+C:\Users\ideon\Documents\github_Mati\Sokoban-Project\Mati_as\bin\Debug\net7.0\Function 을 이해하기 위한 Sokoban refactoring.deps.json
+C:\Users\ideon\Documents\github_Mati\Sokoban-Project\Mati_as\bin\Debug\net7.0\Function 을 이해하기 위한 Sokoban refactoring.runtimeconfig.json
+C:\Users\ideon\Documents\github_Mati\Sokoban-Project\Mati_as\bin\Debug\net7.0\Function 을 이해하기 위한 Sokoban refactoring.dll
+C:\Users\ideon\Documents\github_Mati\Sokoban-Project\Mati_as\bin\Debug\net7.0\Function 을 이해하기 위한 Sokoban refactoring.pdb
+C:\Users\ideon\Documents\github_Mati\Sokoban-Project\Mati_as\obj\Debug\net7.0\Function 을 이해하기 위한 Sokoban refactoring.genruntimeconfig.cache
+C:\Users\ideon\Documents\github_Mati\Sokoban-Project\Mati_as\obj\Debug\net7.0\ref\Function 을 이해하기 위한 Sokoban refactoring.dll
