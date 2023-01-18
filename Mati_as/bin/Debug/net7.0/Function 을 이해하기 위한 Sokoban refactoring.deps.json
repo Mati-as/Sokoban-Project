@@ -1,0 +1,23 @@
+{
+  "runtimeTarget": {
+    "name": ".NETCoreApp,Version=v7.0",
+    "signature": ""
+  },
+  "compilationOptions": {},
+  "targets": {
+    ".NETCoreApp,Version=v7.0": {
+      "Function 을 이해하기 위한 Sokoban refactoring/1.0.0": {
+        "runtime": {
+          "Function 을 이해하기 위한 Sokoban refactoring.dll": {}
+        }
+      }
+    }
+  },
+  "libraries": {
+    "Function 을 이해하기 위한 Sokoban refactoring/1.0.0": {
+      "type": "project",
+      "serviceable": false,
+      "sha512": ""
+    }
+  }
+}
